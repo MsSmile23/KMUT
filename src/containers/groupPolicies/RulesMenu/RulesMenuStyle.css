@@ -1,0 +1,33 @@
+.main-menu-item .ant-menu-submenu-title {
+    background: rgba(0, 0, 0, 0.02);
+    /* background: red; */
+    border-bottom: 1px solid #f0f0f0;
+    margin-block: 0;
+    margin: 0;
+    width: 100%;
+    border-radius: 0;
+    padding-right: 10px;
+    padding-left: 10px !important;
+}
+
+.ant-menu-item .main-menu-item .ant-menu .ant-menu-inline {
+    background: white;
+    border: none;
+}
+
+.submenu-item {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    margin-block: 0;
+    margin: 0;
+    width: 100%;
+    border-radius: 0;
+}
+
+.main-menu-item .ant-menu-submenu-title .ant-menu-submenu-arrow {
+    display: none;
+  }
+
+.ant-menu-submenu-open .custom-arrow {
+    transform: rotate(180deg);
+}

@@ -1,0 +1,8 @@
+#!/bin/bash
+export LC_ALL=C
+sed -i 's/^user.*\;/user  www-data\;/' /etc/nginx/nginx.conf
+rm /etc/nginx/sites-enabled/default 2>/dev/null || true
+mkdir -p /var/log/echo-center-webfront-ml 2>/dev/null || true
+
+/etc/init.d/nginx restart
+

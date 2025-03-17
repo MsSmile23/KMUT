@@ -1,0 +1,1 @@
+export { postVtemplates } from './postVtemplates';

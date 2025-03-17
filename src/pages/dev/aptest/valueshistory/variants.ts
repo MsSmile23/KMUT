@@ -1,0 +1,116 @@
+const response = {
+    success: true,
+    data: [
+        {
+            code: 'mishk-arm-check_net_rcv-mbits',
+            data: [
+                [1689627600, 0.5499999895691872],
+                [1689714000, 3.0899999383836985],
+                [1689800400, 6.439999893307686],
+                [1689886800, 2.7399999406188726],
+                [1689973200, 2.199999950826168],
+                [1690059600, 2.339999947696924],
+                [1690146000, 2.43999994546175],
+                [1690232400, 2.709999945014715],
+                [1690318800, 3.0799999553710222],
+                [1690405200, 2.3899999540299177],
+            ],
+        },
+        {
+            code: 'mishk-arm-check_net_trn-mbits',
+            data: [
+                [1689627600, 0.029999999329447746],
+                [1689714000, 0.09999999776482582],
+                [1689800400, 0.17000000178813934],
+                [1689886800, 0.03999999910593033],
+                [1689973200, 0.03999999910593033],
+                [1690059600, 0],
+                [1690146000, 0.029999999329447746],
+                [1690232400, 0.09999999776482582],
+                [1690318800, 0.1699999999254942],
+                [1690405200, 0.04999999888241291],
+            ],
+        },
+    ],
+}
+
+export const variants = [
+    {
+        id: 1,
+        props: {
+            view: 'column',
+            depth: [1, 2, 3],
+            groupBy: 'day',
+            chartName: 'История изменения объёма трафика, МБ',
+            chartType: 'all',
+            dataSource: 2,
+            autoUpdated: true,
+            aggregationType: 'sum',
+            subjectChildTypes: [4],
+        },
+        response,
+    },
+    {
+        id: 2,
+        props: {
+            view: 'column',
+            depth: [1, 2, 3],
+            groupBy: 'day',
+            chartName: 'История изменения объёма трафика, МБ',
+            chartType: 'percents',
+            dataSource: 2,
+            autoUpdated: true,
+            aggregationType: 'sum',
+            subjectChildTypes: [4],
+            legendTypeValues: 'percentage'
+        },
+        response,
+    },
+    {
+        id: 3,
+        props: {
+            view: 'lastPie',
+            depth: [1, 2, 3],
+            groupBy: 'day',
+            chartName: 'История изменения объёма трафика, МБ',
+            chartType: 'all',
+            dataSource: 2,
+            autoUpdated: true,
+            aggregationType: 'sum',
+            subjectChildTypes: [4],
+        },
+        response,
+    },
+    {
+        id: 4,
+        props: {
+            view: 'lastColumn',
+            depth: 1,
+            groupBy: 'day',
+            chartName: 'История изменения объёма трафика, МБ',
+            chartType: 'all',
+            dataSource: 2,
+            autoUpdated: true,
+            aggregationType: 'sum',
+            subjectChildTypes: [4],
+        },
+        response,
+    },
+    {
+        id: 5,
+        props: {
+            view: 'lastColumn',
+            depth: 1,
+            groupBy: 'day',
+            chartName: 'История изменения объёма трафика, МБ',
+            chartType: 'percents',
+            dataSource: 2,
+            autoUpdated: true,
+            aggregationType: 'sum',
+            subjectChildTypes: [4],
+            legendTypeValues: 'percentage',
+            legendUnits: 'unit123'
+        },
+        response,
+    },
+]

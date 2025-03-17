@@ -1,0 +1,51 @@
+.ant-card-body {
+  padding: 0px !important;
+}
+
+.antInput {
+  /* Убираем рамку */
+  background-color: transparent;
+  /* Однотонный фон */
+  border-radius: 4px;
+  /* Скругление углов */
+  color: #90CAF9
+}
+
+.antInput input {
+  color: #90CAF9;
+  background-color: transparent;
+}
+
+.antiInput:focus {
+  outline: none;
+  /* Убираем outline */
+  box-shadow: none;
+  /* Убираем тень */
+  background-color: transparent;
+  /* Изменяем фон при фокусе */
+}
+
+.antInput input::placeholder {
+  color: #90CAF9;
+
+  /* Серый цвет placeholder */
+}
+
+.gridCard :global(.ag-root-wrapper) {
+  background-color: transparent;
+
+  /* Серый цвет placeholder */
+}
+
+/* Изменение цвета иконки очистки */
+.antInput :global(.ant-input-clear-icon) {
+  color: #90CAF9;
+  /* Красный цвет */
+}
+
+/* Изменение цвета иконки при наведении */
+.antInput :global(.ant-input-clear-icon:hover) {
+  color: #90CAF9;
+  /* Темно-красный цвет */
+}
+

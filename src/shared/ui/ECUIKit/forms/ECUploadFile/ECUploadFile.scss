@@ -1,0 +1,12 @@
+.ec-upload-file {
+    display: flex;
+
+    .ant-upload-wrapper {
+        display: flex;
+        align-items: center;
+    }
+    .ant-upload-list-item {
+        margin-top: 0 !important;
+        margin-left: 12px;
+    }
+}

@@ -1,0 +1,14 @@
+.toolbar{
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow:  rgba(0, 0, 0, 0.4) 0px 0px 8px 0px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
+    gap: 15px;
+}
+
+.toolbar-grp>*{
+    cursor: pointer;
+}

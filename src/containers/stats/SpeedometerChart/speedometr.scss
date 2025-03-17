@@ -1,0 +1,41 @@
+.gauge {
+  width: 100%;
+  max-width: 350px;
+  max-height: 350px;
+  min-width: 250px;
+  min-height: 250px;
+  padding: 0;
+  border: 1px solid #666;
+  background: #F8F8F8;
+}
+
+.gauge-data {
+  text-align: center;
+  color: #666;
+  display: block;
+}
+
+.gauge-data > * {
+  display: block;
+  font-weight: normal;
+}
+
+.gauge-value {
+  margin-top: -72px;
+  font-weight: normal;
+}
+
+.gauge-text {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-top: -5px;
+}
+
+.gauge-unit {
+  margin-top: 5px;
+}
+
+.container-speed {
+  width: 28em;
+  height: 16em;
+}

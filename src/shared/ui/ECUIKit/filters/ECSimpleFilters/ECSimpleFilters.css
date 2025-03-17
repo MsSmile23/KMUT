@@ -1,0 +1,33 @@
+.ECSimpleFilters .iconWrapper {
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 200ms;
+}
+
+.ECSimpleFilters .iconWrapper:hover {
+    background-color: #ffffff14;
+}
+
+.ECSimpleFilters .resetFilters {
+    background-color: transparent;
+    border-color: #90caf980;
+}
+
+.ECSimpleFilters .resetFilters:hover {
+    background-color: #90caf914;
+    border-color: #90caf9;
+}
+
+.ECSimpleFilters .ECSimpleFilters_applyButton2 {
+    background-color: #66bb6a;
+}
+
+.ECSimpleFilters .ant-btn.ECSimpleFilters_applyButton2:hover {
+    background-color: #388e3c;
+    color: #000000;
+}

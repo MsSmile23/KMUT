@@ -1,0 +1,17 @@
+.tabs-align-right .ant-tabs-nav-wrap{
+    justify-content: end;
+}
+
+.forum-ant-tabs-nav-list .ant-tabs-nav-list{
+    margin: 0;
+    padding: 0;
+    height: 44px;
+}
+
+.forum-no-underline .ant-tabs-ink-bar{
+    display: none;
+}
+
+.forum-header-no-margin .ant-tabs-nav {
+    margin-bottom: 0;
+}

@@ -1,0 +1,9 @@
+.smooth-appearance {
+    opacity: 0;
+    animation: animationSmoothAppearance 1.25s forwards;
+  }
+  
+@keyframes animationSmoothAppearance {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}

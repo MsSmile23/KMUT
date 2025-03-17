@@ -1,0 +1,67 @@
+.customTree {
+    width: 100%;
+}
+.customTree .ant-tree-treenode {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    /* height: 24px;
+    line-height: 22px; */
+    font-size: 14px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    /* padding-bottom: 3px; */
+}
+.customTree .ant-tree-icon__customize {
+    display: flex;
+    width: 16px !important;
+}
+.customTree .ant-tree-node-content-wrapper {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    /* height: 22px;
+    line-height: 22px; */
+}
+
+.customTree .ant-tree-switcher-noop {
+    display: none !important;
+    /* width: 0px; */
+}
+.customTree .ant-tree-switcher {
+    display: flex;
+    align-items: center;
+    width: 10px;
+    /* width: 10px; */
+    margin: 0px;
+}
+
+
+.customTree .ant-tree-title { 
+    width: 100%;
+}
+.customTree .ant-tree-node { 
+    width: 100%;
+}
+/* .customTree .ant-tree-node-selected::before {
+    background: transparent !important;
+}  */
+.customTree .ant-tree-indent-unit { 
+    width: 13px !important;
+    /* width: 10px !important; */
+}
+.customTree .ant-tree-indent-unit-start { 
+    width: 13px !important;
+    /* width: 10px !important; */
+}
+.customTree .ant-tree-indent-unit-end { 
+    width: 13px !important;
+    /* width: 10px !important; */
+}
+
+.customTree .ant-tree-list-holder {
+    overflow-x: hidden
+}
+.customTree .ant-tree-list-scrollbar-vertical {
+    right: -10px !important;
+}

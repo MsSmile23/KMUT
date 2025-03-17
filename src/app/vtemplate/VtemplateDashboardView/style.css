@@ -1,0 +1,4 @@
+.layout .react-resizable-hide:hover .react-resizable-handle {
+    background: transparent;
+    pointer-events: none;
+}

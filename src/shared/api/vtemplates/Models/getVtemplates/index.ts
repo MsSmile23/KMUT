@@ -1,0 +1,1 @@
+export { getVtemplates } from './getVtemplates';

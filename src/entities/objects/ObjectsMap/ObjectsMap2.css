@@ -1,0 +1,11 @@
+.leaflet-popup-container {
+    pointer-events: none;
+  }  
+
+.leaflet-popup-container:hover .leaflet-popup {
+  pointer-events: auto;
+}
+
+path.leaflet-interactive{
+  outline: none;
+}

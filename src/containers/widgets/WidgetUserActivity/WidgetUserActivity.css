@@ -1,0 +1,22 @@
+.activeUsersTable {
+    position: relative;
+}
+
+.activeUsersTable > .ant-card > .ant-card-body > .ant-card {
+    position: sticky;
+    top: -113px;
+    z-index: 20;
+}
+
+.activeUsersTable .ant-table-cell {
+    padding: 16px !important;
+    border-color: #ffffff22 !important;
+}
+
+.activeUsersTable .ant-table-cell::before {
+    display: none;
+}
+
+.activeUsersTable .ant-table-tbody > .ant-table-measure-row {
+    display: none;
+}

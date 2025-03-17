@@ -1,0 +1,8 @@
+.ProjectNetUtilization_download {
+    background-color: #90caf9;
+}
+
+.ant-row .ProjectNetUtilization_download.ant-btn:hover {
+    background-color: #42a5f5;
+    color: #000000;
+}

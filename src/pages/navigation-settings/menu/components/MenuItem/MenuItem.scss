@@ -1,0 +1,16 @@
+.customStyle .ant-collapse-header{
+    border-radius: 8px !important;
+
+}
+.customStyle .ant-collapse-content-box {
+    padding: 5px !important;
+}
+
+.ant-collapse .ant-collapse-item-disabled > .ant-collapse-header{
+    color: initial !important;
+    cursor: initial !important;
+}
+
+.withoutChildren .ant-collapse-expand-icon {
+display: none !important
+}

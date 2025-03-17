@@ -1,0 +1,20 @@
+.constructor-white-text .ant-menu-submenu-title {
+    color: white !important;
+}
+
+.constructor-item-active:hover .ant-menu-item-active:not(.ant-menu-item-selected) {
+    color: rgba(255, 255, 255, 0.65) !important;
+    background: #7019c2 !important;
+}
+
+.site-layout > main {
+    display: flex;
+    flex-direction: column;
+}
+
+.site-layout > main > div {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}

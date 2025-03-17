@@ -1,0 +1,148 @@
+.VtemplateSCForm__group-button {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.VtemplateSCForm__group-button>div {
+    display: flex;
+    gap: 10px;
+}
+
+.VtemplateSCForm__tabs-container {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.VtemplateSCForm__tabs-block {
+    width: 100%;
+    display: flex; 
+    justify-content: flex-end;
+    position: relative;
+}
+
+.VtemplateSCForm__tabs {
+    width: min-content;
+    display: flex; 
+    overflow: auto;
+    scrollbar-width: none;
+    /* justify-content: flex-end; */
+}
+
+.VtemplateSCForm__tabs::-webkit-scrollbar {
+    background: transparent;
+}
+
+.vtemplateForm__group-button-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: 'center';
+}
+
+.VtemplateSCForm_start {
+
+    .ant-tabs-nav-wrap {
+        justify-content: flex-start !important;
+    }
+
+}
+
+.VtemplateCustomWrapper {
+
+    .ant-tabs-nav {
+        padding: 0 !important;
+        border-bottom: 0px solid white !important;
+        /* border: 1px solid #f0f0f0;
+      border-radius: 10px; */
+        /* box-shadow: #f0f0f0 0 8px 24px; */
+    }
+
+    .ant-tabs-nav-wrap {
+        justify-content: flex-end !important;
+        /* border: 1px solid red; */
+    }
+
+    .ant-tabs-nav-add {
+        border-radius: 8px !important;
+        margin-left:5px !important
+    }
+
+    .ant-tabs-nav::before {
+        border: none;
+    }
+
+    .ant-tabs-tab {
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0px solid rgba(226, 226, 226, 1) !important;
+        border-radius: 8px;
+        box-shadow: none;
+        /* border: 1px solid #f0f0f0 !important;
+      border-radius: 10px !important;
+      padding: 4px 8px !important;
+      margin-left: 10px !important; */
+    }
+
+    & .ant-select-focused,
+    .ant-select-selector,
+    .ant-select-selector:focus,
+    .ant-select-selector:active,
+    .ant-select-open .ant-select-selector {
+        border: 0 !important;
+        box-shadow: none !important;
+    }
+
+    & .ant-select-arrow {
+        display: none;
+    }
+
+    & .ant-select-selection-placeholder {
+        padding-right: 0 !important;
+    }
+
+    & .ant-tabs-tab-active {
+        background: #E9F7FC !important;
+        color: black !important
+    }
+}
+
+.VtemplateSCForm {
+    height: 100%;
+}
+
+.VtemplateSCForm .iconEdit {
+    margin-left: 10px;
+    color: rgba(0, 0, 0, 0.45);
+    transition: 0.23s linear;
+}
+
+.VtemplateSCForm .iconEdit:hover {
+    color: rgba(0, 0, 0, 1);
+}
+
+.VtemplateSCForm .ant-tabs-tab .anticon {
+    margin-right: 0;
+}
+
+.VtemplateSCForm .ant-tabs-tab-remove {
+    display: none;
+}
+
+/*Вертикальное расположение вкладок-------------------------*/
+.VtemplateSCForm__tabs-container_vertical {
+    display: flex;
+    gap: 10px;
+}
+
+.VtemplateSCForm__tabs-block_vertical {
+    margin-top: 34px;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+}
+
+.VtemplateSCForm__tabs_vertical {
+    flex-direction: column;
+    max-height: 420px;
+    scrollbar-width: none;
+}

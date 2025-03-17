@@ -1,0 +1,33 @@
+.tabs-align-right .ant-tabs-nav-wrap{
+    justify-content: end;
+}
+
+.forum-ant-tabs-nav-list .ant-tabs-nav-list{
+    margin: 0;
+    padding: 0;
+    height: 44px;
+}
+
+.forum-no-underline .ant-tabs-ink-bar{
+    display: none;
+}
+
+.forum-header-no-border .ant-tabs-nav::before {
+    border: none;
+}
+
+.custom-dropdown .ant-dropdown-menu-vertical{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    padding: 5px 0;
+}
+.custom-dropdown-item .ant-dropdown-menu-item{
+    flex: 1;
+}
+.custom-dropdown-item .ant-dropdown-menu-item-only-child{
+    padding: 5px 10px;
+}
+.hideTabs .ant-tabs-nav{
+    display: none;
+}

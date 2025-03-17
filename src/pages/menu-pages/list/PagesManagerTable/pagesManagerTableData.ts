@@ -1,0 +1,1 @@
+export const mnemoFrontPages = 'front_pages'

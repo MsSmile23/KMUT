@@ -1,0 +1,10 @@
+/var/log/echo-center-webfront-ml/*.log
+{
+        rotate 14
+        daily
+        missingok
+        notifempty
+        delaycompress
+        compress
+        copytruncate
+}

@@ -1,0 +1,22 @@
+.right-aligned-input .ant-picker-input {
+    text-align: right; 
+}
+
+.right-aligned-input .ant-picker-input input {
+    text-align: right; 
+}
+
+.bright-disabled-input .ant-picker-input :disabled {
+    opacity: 1 !important;
+    color: black !important;
+}
+
+.right-aligned-input .ant-picker-input :disabled {
+    opacity: 1 !important;
+    color: black !important;
+}
+
+.ant-collapse-header {
+    display: flex;
+    align-items: center;
+}

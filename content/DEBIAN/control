@@ -1,0 +1,10 @@
+Package: echo-center-webfront-ml
+Version: %%VERSION%%
+Architecture: amd64
+Maintainer: Eduard Ivanov <info@ed-it.ru>
+Installed-Size: 60
+Depends: nginx, openssl
+Suggests: vim
+Section: net
+Priority: extra
+Description: echo-center-webfront-ml

@@ -1,0 +1,21 @@
+.avaria {
+    /* Убираем рамку */
+    background-color: transparent;
+    /* Однотонный фон */
+}
+
+.avaria .ag-row {
+    background-color: transparent !important;
+}
+
+.avaria .ag-header-cell {
+    background-color: transparent !important;
+}
+
+.avaria .ag-root-wrapper {
+    background-color: transparent !important;
+}
+
+.avaria .ag-body {
+    background-color: transparent !important;
+}

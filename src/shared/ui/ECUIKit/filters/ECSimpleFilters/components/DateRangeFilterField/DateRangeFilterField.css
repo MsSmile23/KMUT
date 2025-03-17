@@ -1,0 +1,98 @@
+.dateRangeFilterField {
+    border-color: var(--relation-field-border-color);
+    background-color: transparent !important;
+}
+
+.dateRangeFilterField:hover {
+    border-color: var(--relation-field-border-color);
+}
+
+.dateRangeFilterField.ant-picker-focused {
+    border-color: var(--relation-field-border-color);
+}
+
+.dateRangeFilterField.dateRangeFilterField-focused {
+    border-color: #90caf9;
+    border-width: 2px;
+}
+
+.dateRangeFilterField .ant-picker-active-bar {
+    background-color: #90caf9;
+}
+
+.dateRangeFilterField .ant-picker-input input {
+    color: var(--relation-field-text-color);
+}
+
+.dateRangeFilterField .ant-picker-input input::placeholder {
+    color: var(--relation-field-text-color);
+    opacity: 0.4;
+}
+
+.dateRangeFilterField .ant-picker-clear {
+    background-color: var(--relation-field-background-color);
+}
+
+.dateRangeFilterField .ant-picker-clear svg {
+    fill: var(--relation-field-text-color);
+    opacity: 0.4;
+}
+
+.dateRangeFilterField .ant-picker-separator,
+.dateRangeFilterField .ant-picker-suffix {
+    color: #ffffff40;
+}
+
+.dateRangeFilterField-dropdown.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-in-range::before {
+    background: #ffffff22;
+}
+
+.dateRangeFilterField-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-range-end-single)::before {
+    background: #ffffff22;
+}
+
+.dateRangeFilterField-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-range-start-single)::before {
+    background: #ffffff22;
+}
+
+.dateRangeFilterField-dropdown .ant-picker-cell-range-hover-start::before {
+    background: #ffffff22;
+}
+
+.dateRangeFilterField-dropdown.ant-picker-dropdown .ant-picker-date-panel .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover-end .ant-picker-cell-inner::after {
+    background: #ffffff22;
+}
+
+.dateRangeFilterField-dropdown.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-range-end-single).ant-picker-cell-range-hover-end::before {
+    background: #ffffff55;
+}
+
+.dateRangeFilterField-dropdown.ant-picker-dropdown .ant-picker-date-panel .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover-start .ant-picker-cell-inner::after {
+    background: #ffffff22;
+}
+
+.dateRangeFilterField-dropdown.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-range-start-single).ant-picker-cell-range-hover-start::before {
+    background: #ffffff22;
+}
+
+.dateRangeFilterField-dropdown .ant-picker-panel-container {
+    background-color: var(--relation-field-background-color);
+    color: var(--relation-field-text-color);
+    border: 1px solid #ffffff22;
+}
+
+.dateRangeFilterField-dropdown .ant-picker-cell {
+    color: var(--relation-field-text-color);
+}
+
+.dateRangeFilterField-dropdown .ant-picker-header {
+    color: var(--relation-field-text-color);
+}
+
+.dateRangeFilterField-dropdown .ant-picker-content th {
+    color: var(--relation-field-text-color);
+}
+
+.dateRangeFilterField-dropdown .ant-picker-header button {
+    color: var(--relation-field-text-color);
+}

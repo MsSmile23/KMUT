@@ -1,0 +1,324 @@
+stages:
+  - version
+  - build
+  - deb
+  - upload
+  - deploy
+  - notify
+
+versioning:
+  stage: version
+  image: office.ed-it.ru/webfront-build-nodejs18:latest
+  tags:
+    - docker
+  script:
+    - . builder/libs.sh
+    - >
+      sendtlg "Началась сборка пакета <b>${PROJECT}</b>
+      Время начала `date`"
+    - case $CI_COMMIT_BRANCH in master) TREE="stable";; dev) TREE="testing";; *) exit 1;; esac
+    - >
+      echo $CI_COMMIT_MESSAGE | grep '^feat*' && mode=minor;
+      echo $CI_COMMIT_MESSAGE | grep '^fix*' && mode=patch;
+    - echo `echo $CI_COMMIT_MESSAGE | cut -d":" -f1` | grep "\!" && breaking=yes;
+    - apt update -qq && apt install wget gnupg -y;
+    - wget http://192.168.1.136:81/kmut2/install-deb-src-kmyt-lv-ci.sh -q -O- | /bin/bash
+    - >
+      version_old=`(apt-cache show ${PROJECT} | grep Version | cut -d" " -f2 | head -1) || true`;
+      maj=0; maj=`echo $version_old | cut -d"." -f1`;
+      min=0; min=`echo $version_old | cut -d"." -f2`;
+      patch=0; patch=`echo $version_old | cut -d"." -f3`;
+    - case $mode in minor) min=$((min+1)) && patch="" ;; patch) patch=$((patch+1));; *) exit 1; ;; esac
+    - if [[ $breaking == 'yes' ]]; then maj=$((maj+1)); min=""; patch=""; fi
+    - >
+      if [ -z $maj ]; then maj="0"; fi;
+      if [ -z $min ]; then min="0"; fi;
+      if [ -z $patch ]; then patch="0"; fi;
+    - echo "BUILD_VERSION=${maj}.${min}.${patch}" >> version.env
+    - echo "BUILD_TREE=${TREE}" >> version.env
+  artifacts:
+    reports:
+      dotenv: version.env
+    expire_in: 1 week
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "dev") && ($CI_COMMIT_MESSAGE =~ /^fix:.*/ || $CI_COMMIT_MESSAGE =~ /^feat:.*/)
+
+build:
+  stage: build
+  image: office.ed-it.ru/webfront-build-nodejs18:latest
+  tags:
+    - docker
+  cache: 
+    paths: 
+      - node_modules/
+      - yarn.lock
+  script:
+    - yarn install --ignore-engines --check-files
+    - export NODE_OPTIONS=--max-old-space-size=5120
+    - yarn build --mode production
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 week
+  needs:
+    job: versioning
+    artifacts: true
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "dev") && ($CI_COMMIT_MESSAGE =~ /^fix:.*/ || $CI_COMMIT_MESSAGE =~ /^feat:.*/)
+
+bake-deb:
+  stage: deb
+  image: office.ed-it.ru/webfront-build-nodejs18:latest
+  tags:
+    - docker
+  script:
+    - echo "BUILD_VERSION ${BUILD_VERSION} and BUILD_TREE ${BUILD_TREE}"
+    - mkdir -p tmp/usr/share/${PROJECT}
+    - cp -r dist/* tmp/usr/share/${PROJECT}/
+    - cp -r content/* tmp/
+    - chmod a+x tmp/DEBIAN/p*
+    - sed -i "s/%%VERSION%%/${BUILD_VERSION}/" tmp/DEBIAN/control
+    - rm -fr `find tmp/ -name '.git*'`
+    - rm -rf *.deb
+    - fakeroot dpkg -b tmp ${PROJECT}_${BUILD_VERSION}_amd64.deb
+  artifacts:
+    paths:
+      - "*.deb"
+    expire_in: 1 week
+  needs:
+    - versioning
+    - build
+  dependencies:
+    - versioning
+    - build
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "dev") && ($CI_COMMIT_MESSAGE =~ /^fix:.*/ || $CI_COMMIT_MESSAGE =~ /^feat:.*/)
+
+load-and-tag:
+  stage: upload
+  image: office.ed-it.ru/webfront-build-nodejs18:latest
+  tags:
+    - docker
+  script:
+    - . builder/libs.sh
+    - file=${PROJECT}_${BUILD_VERSION}_amd64.deb
+    - upload-to-repo ${BUILD_TREE} ${file}
+    - update-repo ${BUILD_TREE}
+    - TAG=v${BUILD_VERSION}-${BUILD_TREE}; tag-git-repo $TAG
+    - rm ${file}
+    - >
+      sendtlg "Собран пакет <b>${PROJECT}</b> версии <b>${BUILD_VERSION}</b>
+      Repository: <b>${BUILD_TREE}</b>
+      Время окончания `date`"
+  needs:
+    - versioning
+    - bake-deb
+  dependencies:
+    - versioning
+    - bake-deb
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "dev") && ($CI_COMMIT_MESSAGE =~ /^fix:.*/ || $CI_COMMIT_MESSAGE =~ /^feat:.*/)
+
+notify_error:
+  stage: notify
+  image: office.ed-it.ru/webfront-build-nodejs18:latest
+  tags:
+    - docker
+  script:
+    - . builder/libs.sh
+    - >
+      sendtlg "Ошибка сборки пакета <b>${PROJECT}</b> версии <b>${BUILD_VERSION}</b>
+      Время окончания `date`"
+  when: on_failure
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "dev") && ($CI_COMMIT_MESSAGE =~ /^fix:.*/ || $CI_COMMIT_MESSAGE =~ /^feat:.*/)
+
+create_badge_svg:
+  stage: .post
+  image: python:3.6.6
+  tags:
+    - docker
+  script:
+    - pip install anybadge
+    - commits=$(git rev-list --all --count)
+    - anybadge -l commits -v $commits -f commits.svg -c green
+    - wget http://192.168.1.136:81/kmut2/public.key -O - | apt-key add -;
+    - echo -e "deb http://192.168.1.136:81/kmut2 stable kmyt-lv" > /etc/apt/sources.list
+    - apt update -qq;
+    - anybadge -l "Stable:" -v $((apt-cache show ${PROJECT} | grep Version | cut -d" " -f2 | head -1) || echo "None") -f stable_ver.svg -c green
+    - echo -e "deb http://192.168.1.136:81/kmut2 testing kmyt-lv" > /etc/apt/sources.list
+    - apt update -qq;
+    - anybadge -l "Testing:" -v $((apt-cache show ${PROJECT} | grep Version | cut -d" " -f2 | head -1) || echo "None") -f testing_ver.svg -c green
+  artifacts:
+    paths:
+        - "*.svg"
+    when: always
+    expire_in: 4 weeks
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "dev") && ($CI_COMMIT_MESSAGE =~ /^fix:.*/ || $CI_COMMIT_MESSAGE =~ /^feat:.*/)
+
+trigger_job:
+  stage: .post
+  allow_failure: true
+  rules:
+    - if: ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "dev") && ($CI_COMMIT_MESSAGE =~ /^fix:.*/ || $CI_COMMIT_MESSAGE =~ /^feat:.*/)
+  needs:
+    - versioning
+    - bake-deb
+    - load-and-tag
+  trigger:
+    project: main/kmut-ml-mini-repo
+
+
+DEV-ML-WB-138:
+  stage: deploy
+  when: manual
+  image: jenkins/ssh-agent
+  tags:
+    - docker
+  environment:
+    name: DEV-ML-WB-138
+  needs:
+    - versioning
+    - load-and-tag
+  dependencies:
+    - versioning
+  script:
+    - eval $(ssh-agent -s) && echo ${PRIVATE_SSH_KEY} | base64 -d | ssh-add -
+    - mkdir ~/.ssh && ssh-keyscan -p ${REMOTE_SSH_PORT} ${REMOTE_HOST} >> ~/.ssh/known_hosts && chmod 644 ~/.ssh/known_hosts && ls -hal ~/.ssh/known_hosts > /dev/null
+    - ssh -p ${REMOTE_SSH_PORT} ${REMOTE_HOST_USER}@${REMOTE_HOST} "sudo apt update && sudo apt install -y -o Dpkg::Options::=\"--force-confdef\" -o Dpkg::Options::=\"--force-confold\"" ${PROJECT}=${BUILD_VERSION}
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "dev") && ($CI_COMMIT_MESSAGE =~ /^fix:.*/ || $CI_COMMIT_MESSAGE =~ /^feat:.*/)
+
+Cipr24:
+  stage: deploy
+  when: manual
+  image: jenkins/ssh-agent
+  tags:
+    - docker
+  environment:
+    name: prod/Cipr24
+  needs:
+    - versioning
+    - load-and-tag
+  dependencies:
+    - versioning
+  script:
+    - eval $(ssh-agent -s) && echo ${PRIVATE_SSH_KEY} | base64 -d | ssh-add -
+    - mkdir ~/.ssh && ssh-keyscan -p ${REMOTE_SSH_PORT} ${REMOTE_HOST} >> ~/.ssh/known_hosts && chmod 644 ~/.ssh/known_hosts && ls -hal ~/.ssh/known_hosts > /dev/null
+    - ssh -p ${REMOTE_SSH_PORT} ${REMOTE_HOST_USER}@${REMOTE_HOST} "sudo apt update && sudo apt install -y -o Dpkg::Options::=\"--force-confdef\" -o Dpkg::Options::=\"--force-confold\"" ${PROJECT}=${BUILD_VERSION}
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "dev") && ($CI_COMMIT_MESSAGE =~ /^fix:.*/ || $CI_COMMIT_MESSAGE =~ /^feat:.*/)
+
+Kaznacheistvo:
+  stage: deploy
+  when: manual
+  image: jenkins/ssh-agent
+  tags:
+    - docker
+  environment:
+    name: preprod/Kaznacheistvo
+  needs:
+    - versioning
+    - load-and-tag
+  dependencies:
+    - versioning
+  script:
+    - eval $(ssh-agent -s) && echo ${PRIVATE_SSH_KEY} | base64 -d | ssh-add -
+    - mkdir ~/.ssh && ssh-keyscan -p ${REMOTE_SSH_PORT} ${REMOTE_HOST} >> ~/.ssh/known_hosts && chmod 644 ~/.ssh/known_hosts && ls -hal ~/.ssh/known_hosts > /dev/null
+    - ssh -p ${REMOTE_SSH_PORT} ${REMOTE_HOST_USER}@${REMOTE_HOST} "sudo apt update && sudo apt install -y -o Dpkg::Options::=\"--force-confdef\" -o Dpkg::Options::=\"--force-confold\"" ${PROJECT}=${BUILD_VERSION}
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "dev") && ($CI_COMMIT_MESSAGE =~ /^fix:.*/ || $CI_COMMIT_MESSAGE =~ /^feat:.*/)
+
+VPN-ML:
+  stage: deploy
+  when: manual
+  image: jenkins/ssh-agent
+  tags:
+    - docker
+  environment:
+    name: prod/VPN-ML
+  needs:
+    - versioning
+    - load-and-tag
+  dependencies:
+    - versioning
+  script:
+    - eval $(ssh-agent -s) && echo ${PRIVATE_SSH_KEY} | base64 -d | ssh-add -
+    - mkdir ~/.ssh && ssh-keyscan -p ${REMOTE_SSH_PORT} ${REMOTE_HOST} >> ~/.ssh/known_hosts && chmod 644 ~/.ssh/known_hosts && ls -hal ~/.ssh/known_hosts > /dev/null
+    - ssh -p ${REMOTE_SSH_PORT} ${REMOTE_HOST_USER}@${REMOTE_HOST} "sudo apt update && sudo apt install -y -o Dpkg::Options::=\"--force-confdef\" -o Dpkg::Options::=\"--force-confold\"" ${PROJECT}=${BUILD_VERSION}
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "dev") && ($CI_COMMIT_MESSAGE =~ /^fix:.*/ || $CI_COMMIT_MESSAGE =~ /^feat:.*/)
+
+FNS-PILOT:
+  stage: deploy
+  when: manual
+  image: jenkins/ssh-agent
+  tags:
+    - docker
+  environment:
+    name: preprod/FNS-PILOT
+  needs:
+    - versioning
+    - load-and-tag
+  dependencies:
+    - versioning
+  script:
+    - eval $(ssh-agent -s) && echo ${PRIVATE_SSH_KEY} | base64 -d | ssh-add -
+    - mkdir ~/.ssh && ssh-keyscan -p ${REMOTE_SSH_PORT} ${REMOTE_HOST} >> ~/.ssh/known_hosts && chmod 644 ~/.ssh/known_hosts && ls -hal ~/.ssh/known_hosts > /dev/null
+    - ssh -p ${REMOTE_SSH_PORT} ${REMOTE_HOST_USER}@${REMOTE_HOST} "sudo apt update && sudo apt install -y -o Dpkg::Options::=\"--force-confdef\" -o Dpkg::Options::=\"--force-confold\"" ${PROJECT}=${BUILD_VERSION}
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "dev") && ($CI_COMMIT_MESSAGE =~ /^fix:.*/ || $CI_COMMIT_MESSAGE =~ /^feat:.*/)
+
+FNS-PILOT-prod-new:
+  stage: deploy
+  when: manual
+  image: jenkins/ssh-agent
+  tags:
+    - docker
+  environment:
+    name: prod/FNS-PILOT-new
+  needs:
+    - versioning
+    - load-and-tag
+  dependencies:
+    - versioning
+  script:
+    - eval $(ssh-agent -s) && echo ${PRIVATE_SSH_KEY} | base64 -d | ssh-add -
+    - mkdir ~/.ssh && ssh-keyscan -p ${REMOTE_SSH_PORT} ${REMOTE_HOST} >> ~/.ssh/known_hosts && chmod 644 ~/.ssh/known_hosts && ls -hal ~/.ssh/known_hosts > /dev/null
+    - ssh -p ${REMOTE_SSH_PORT} ${REMOTE_HOST_USER}@${REMOTE_HOST} "sudo apt update && sudo apt install -y -o Dpkg::Options::=\"--force-confdef\" -o Dpkg::Options::=\"--force-confold\"" ${PROJECT}=${BUILD_VERSION}
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "dev") && ($CI_COMMIT_MESSAGE =~ /^fix:.*/ || $CI_COMMIT_MESSAGE =~ /^feat:.*/)
+
+VOSKHOD-LAB:
+  stage: deploy
+  when: manual
+  image: jenkins/ssh-agent
+  tags:
+    - docker
+  environment:
+    name: preprod/VOSH-ML
+  needs:
+    - versioning
+    - load-and-tag
+  dependencies:
+    - versioning
+  script:
+    - eval $(ssh-agent -s) && echo ${PRIVATE_SSH_KEY} | base64 -d | ssh-add -
+    - mkdir ~/.ssh && ssh-keyscan -p ${REMOTE_SSH_PORT} ${REMOTE_HOST} >> ~/.ssh/known_hosts && chmod 644 ~/.ssh/known_hosts && ls -hal ~/.ssh/known_hosts > /dev/null
+    - ssh -p ${REMOTE_SSH_PORT} ${REMOTE_HOST_USER}@${REMOTE_HOST} "sudo apt update && sudo apt install -y -o Dpkg::Options::=\"--force-confdef\" -o Dpkg::Options::=\"--force-confold\"" ${PROJECT}=${BUILD_VERSION}
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "dev") && ($CI_COMMIT_MESSAGE =~ /^fix:.*/ || $CI_COMMIT_MESSAGE =~ /^feat:.*/)

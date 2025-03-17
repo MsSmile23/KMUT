@@ -1,0 +1,21 @@
+.text-input-wraper {
+    display: flex; 
+    align-items: center;
+}
+
+.text-input {
+    border: 1px solid rgb(243, 243, 243);
+    height: 32px;
+    border-radius: 5px;
+    padding: 0 5px;
+}
+
+
+.text-input {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

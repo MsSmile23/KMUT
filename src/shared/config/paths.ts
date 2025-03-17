@@ -1,0 +1,77 @@
+export enum ROUTES {
+    MAIN = '/',
+
+    AUTH = 'auth',
+    LOGIN = 'login',
+    INTERFACEVIEWS = 'interface-change',
+    PRELOAD = 'preload',
+    PUBLIC = 'public',
+    DEMO = 'demo',
+    
+    ATTRIBUTE_CATEGORIES = 'attribute-categories',
+    CLASSES = 'classes',
+    ATTRIBUTES = 'attributes',
+    RELATIONS = 'relations',
+    OBJECTS = 'objects',
+    STATE_MACHINES = 'state-machines',
+    VTEMPLATES = 'vtemplates',
+    SETTINGS ='settings',
+    INCIDENTS = 'incidents',
+    INVENTORY = 'inventory',
+    REPORTS = 'reports',
+    NOTIFICATIONS = 'notifications',
+    MAP = 'map',
+    INFOPANELS = 'infopanels',
+    DISCOVERY = 'discovery',
+    PAGE_MENU_CONSTRUCTOR = 'pageMenuConstructor',
+    MENU_MANAGER = 'menu-manager',
+    MENU = 'menu',
+    MASS_ACTIONS = 'mass-actions',
+    LICENSE = 'license',
+    PAGES = 'pages',
+    MANAGER = 'manager',
+    SYSTEM = 'system',
+    CONFIGURATION= 'configuration',
+    NETFLOW = 'netflow',
+    ZOND = 'zond',
+    REGISTRATION = 'registration',
+    HELPS = 'helps',
+    MOBILE = 'mobile',
+    GROUP_POLICIES = 'group-policies',
+    OTHER = 'other',
+    SYSLOG = 'syslog',
+
+    DEV = '/dev',
+    ARTEM = 'artem',
+    APTEST = 'aptest',
+    ALEX = 'alex',
+    AISAEV = 'aisaev',
+    VLADIMIR = 'vladimir',
+    VL = 'vl',
+    ACCOUNTS = 'accounts',
+    ALEKSEY = 'aleksey',
+    RULE_TEMPLATES = 'ruleTemplates',
+    MENU_CONSTRUCTOR = 'menuConstructor',
+    BRATANOV = 'bratanov',
+    NIKITA = 'nikita',
+    THEME_SETTINGS = 'themeSettings',
+    SCREENS = 'screens',
+    NAVIGATION = 'navigation',
+    ROLES = 'roles',
+    MARKO = 'marko',
+    ERROR = 'error'
+
+}
+
+export enum ROUTES_COMMON {
+    LIST = 'list',
+    CREATE = 'create',
+    UPDATE = 'update',
+    LINKS = 'links',
+    SHOW = 'show',
+    SYSLOG = 'syslog'
+}
+
+export enum ROUTES_SETTINGS {
+    LAYOUT = 'layout',
+}

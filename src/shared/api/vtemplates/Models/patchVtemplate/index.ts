@@ -1,0 +1,1 @@
+export { patchVtemplates } from './patchVtemplate';

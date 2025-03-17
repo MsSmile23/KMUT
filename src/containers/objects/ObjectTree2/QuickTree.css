@@ -1,0 +1,15 @@
+.quickTree .ant-tree-treenode > .ant-tree-node-content-wrapper {
+    min-height: 0;
+}
+
+.quickTree .ant-tree-node-selected.ant-tree-node-content-wrapper {
+    background-color: transparent;
+}
+
+.quickTree {
+    background-color: transparent;
+}
+
+.quickTree .ant-tree-indent {
+    /* width: 26px; */
+}

@@ -1,0 +1,14 @@
+.filterForm .ant-select > .ant-select-selector {
+    padding: 0px 4px;
+    height: 30px;
+}
+.filterForm .ant-select-multiple.ant-select > .ant-select-selector {
+    padding: 0px 4px;
+    height: auto;
+}
+
+
+.filterForm .ant-input {
+    padding: 4px;
+    height: 30px;
+}

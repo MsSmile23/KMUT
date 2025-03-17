@@ -1,0 +1,80 @@
+:root {
+    --bgr-well: white;
+    --brd-r: 6px;
+}
+
+.unit {
+    background: var(--bgr-well); 
+    width: 100%;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--brd-r);
+}
+
+.rack-container {
+    width: min-content;
+    display: flex;
+    gap: 20px; 
+    flex-wrap: nowrap;
+    box-sizing: border-box;
+    padding: 0 20px;
+    border-radius: 8px;
+    border: 1px solid #E2E2E2;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.rack {
+    padding: 8px;  
+    border-radius:  var(--brd-r);
+}
+
+.rack-name {
+    font-size: 18px; 
+    font-weight: 600;
+}
+
+.rack-tag-row { 
+    background: var(--bgr-well); 
+    padding: 4px; 
+    border-radius:  var(--brd-r); 
+}
+
+.rack-tag {
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.rack-params {
+    background: var(--bgr-well); 
+    padding: 4px; 
+    border-radius:  var(--brd-r); 
+}
+
+.rack-power-title { 
+    font-size: 14px; 
+    color: white;
+}
+
+.rack-power-bar { 
+    background: var(--bgr-well); 
+    border-radius:  var(--brd-r);
+}
+
+.rack-colored-unit .ant-table-cell {
+    /* background: rgba(0, 0, 0, 0.02); */
+    border-top: 1px solid #f0f0f0;
+    padding: 0 5px !important;
+    height: 34px;
+}
+
+.rack-custom-table table {
+    table-layout: fixed !important; 
+}
+
+.rack-colored-unit, .custom-row td {
+    height: 36px !important;
+}
